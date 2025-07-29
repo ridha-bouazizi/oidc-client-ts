@@ -1,6 +1,6 @@
 {
   "name": "@ridha.bouazizi/oidc-client-ts-redis",
-  "version": "3.3.0-redis.1",
+  "version": "3.3.0-redis.2",
   "description": "OpenID Connect (OIDC) & OAuth2 client library with Redis server-side support",
   "repository": {
     "type": "git",
@@ -80,7 +80,28 @@
     "yn": "^5.0.0"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=16.0.0"
+  },
+  "author": {
+    "name": "Ridha Bouazizi",
+    "email": "contact.ridha.bouazizi@gmail.com"
+  },
+  "contributors": [
+    {
+      "name": "Original oidc-client-ts authors",
+      "url": "https://github.com/authts/oidc-client-ts/graphs/contributors"
+    }
+  ],
+  "peerDependencies": {
+    "redis": "^4.0.0 || ^5.0.0"
+  },
+  "peerDependenciesMeta": {
+    "redis": {
+      "optional": false
+    }
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "eslint --cache --fix"
