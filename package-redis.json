@@ -23,6 +23,8 @@
     "SERVER_SIDE_REDIS.md",
     "REDIS_README.md",
     "IMPLEMENTATION_SUMMARY.md",
+    "DOCUMENTATION_INDEX.md",
+    "CHANGELOG.md",
     "examples"
   ],
   "keywords": [
