@@ -19,11 +19,12 @@ export interface RedisConfig {
  * @public
  */
 export interface RedisClientLike {
-    setex(key: string, seconds: number, value: string): Promise<void>;
+    setEx(key: string, seconds: number, value: string): Promise<void>;
+    set(key: string, value: string, options?: { EX?: number }): Promise<void>;
     get(key: string): Promise<string | null>;
-    del(...keys: string[]): Promise<number>;
+    del(keys: string | string[]): Promise<number>;
     keys(pattern: string): Promise<string[]>;
-    expire(key: string, seconds: number): Promise<void>;
+    expire(key: string, seconds: number): Promise<boolean>;
     exists(key: string): Promise<number>;
 }
 
@@ -46,7 +47,7 @@ export class RedisStateStore implements StateStore {
     public async set(key: string, value: string): Promise<void> {
         this._logger.create(`set('${key}')`);
         const prefixedKey = this._prefix + key;
-        await this._redis.setex(prefixedKey, this._ttl, value);
+        await this._redis.setEx(prefixedKey, this._ttl, value);
     }
 
     public async get(key: string): Promise<string | null> {
@@ -74,7 +75,10 @@ export class RedisStateStore implements StateStore {
     public async expire(key: string, seconds: number): Promise<void> {
         this._logger.create(`expire('${key}', ${seconds})`);
         const prefixedKey = this._prefix + key;
-        await this._redis.expire(prefixedKey, seconds);
+        const result = await this._redis.expire(prefixedKey, seconds);
+        if (!result) {
+            this._logger.warn(`Failed to set expiration for key: ${key}`);
+        }
     }
 
     public async exists(key: string): Promise<boolean> {
@@ -89,7 +93,7 @@ export class RedisStateStore implements StateStore {
         const pattern = this._prefix + "*";
         const keys = await this._redis.keys(pattern);
         if (keys.length > 0) {
-            await this._redis.del(...keys);
+            await this._redis.del(keys);
         }
     }
 }
