@@ -5,10 +5,13 @@
   "main": "server-side-redis-integration.js",
   "type": "module",
   "scripts": {
+    "setup": "node setup.js",
     "start": "node --loader ts-node/esm server-side-redis-integration.ts",
     "dev": "node --loader ts-node/esm --watch server-side-redis-integration.ts",
     "simple": "node --loader ts-node/esm simple-redis-example.ts",
-    "server": "node --loader ts-node/esm express-server-example.ts"
+    "server": "node demo-server.cjs",
+    "test": "node test-setup.cjs",
+    "test-redis": "node test-redis-state-store.cjs"
   },
   "dependencies": {
     "express": "^4.18.2",
