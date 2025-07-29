@@ -46,3 +46,9 @@ export { Version } from "./Version";
 export { WebStorageStateStore } from "./WebStorageStateStore";
 export { IndexedDbDPoPStore } from "./IndexedDbDPoPStore";
 export { DPoPState } from "./DPoPStore";
+
+// Server-side Redis support
+export { RedisStateStore } from "./RedisStateStore";
+export type { RedisConfig } from "./RedisStateStore";
+export { ServerSideOidcClient, ServerSideUserManager } from "./ServerSideOidcClient";
+export type { ServerSideOidcConfig } from "./ServerSideOidcClient";

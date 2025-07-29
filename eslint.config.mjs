@@ -24,6 +24,7 @@ export default [{
         "docs/pages/",
         "**/lib/",
         "**/samples/",
+        "**/examples/",
     ],
 }, ...compat.extends("eslint:recommended", "plugin:testing-library/dom"), {
     plugins: {
