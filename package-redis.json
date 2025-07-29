@@ -1,6 +1,6 @@
 {
   "name": "@ridha.bouazizi/oidc-client-ts-redis",
-  "version": "3.3.0-redis.1",
+  "version": "3.3.0-redis.2",
   "description": "OpenID Connect (OIDC) & OAuth2 client library with Redis server-side support",
   "repository": {
     "type": "git",
