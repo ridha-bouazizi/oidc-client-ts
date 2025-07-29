@@ -1,6 +1,8 @@
 # Server-Side OIDC with Redis State Storage
 
-This guide shows how to use the oidc-client-ts library on the server side with Redis for session storage, enabling signin callback processing in a Node.js environment.
+> **@ridha.bouazizi/oidc-client-ts-redis v3.3.0-redis.1** - Production Ready 🚀
+
+This guide shows how to use the `@ridha.bouazizi/oidc-client-ts-redis` library on the server side with Redis for session storage, enabling signin callback processing in a Node.js environment.
 
 ## Overview
 
@@ -12,28 +14,28 @@ The server-side implementation provides:
 
 ## Installation
 
-First, install the required dependencies:
+Install the package and Redis client:
 
 ```bash
-npm install oidc-client-ts redis
-# or
-npm install oidc-client-ts ioredis
+npm install @ridha.bouazizi/oidc-client-ts-redis redis
 ```
 
-## Usage Examples
+## Quick Start
 
 ### Basic Setup with Redis
 
 ```typescript
 import { createClient } from 'redis';
-import { ServerSideUserManager, RedisStateStore } from 'oidc-client-ts';
+import { ServerSideUserManager, RedisStateStore } from '@ridha.bouazizi/oidc-client-ts-redis';
 
 // Create Redis client
 const redisClient = createClient({
-    host: 'localhost',
-    port: 6379,
-    // password: 'your-password',
-    // db: 0
+    socket: {
+        host: 'localhost',
+        port: 6379,
+    },
+    password: process.env.REDIS_PASSWORD || undefined,
+    database: parseInt(process.env.REDIS_DB || '0'),
 });
 
 await redisClient.connect();
@@ -43,7 +45,7 @@ const userManager = new ServerSideUserManager({
     authority: 'https://your-oidc-provider.com',
     client_id: 'your-client-id',
     client_secret: 'your-client-secret',
-    redirect_uri: 'https://your-app.com/callback',
+    redirect_uri: 'https://your-app.com/auth/callback',
     scope: 'openid profile email',
     redisClient,
     redisConfig: {
@@ -58,7 +60,7 @@ const userManager = new ServerSideUserManager({
 ```typescript
 import express from 'express';
 import { createClient } from 'redis';
-import { ServerSideUserManager } from 'oidc-client-ts';
+import { ServerSideUserManager } from '@ridha.bouazizi/oidc-client-ts-redis';
 import { v4 as uuidv4 } from 'uuid';
 
 const app = express();
@@ -220,7 +222,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 ```typescript
 // lib/auth.ts
 import { createClient } from 'redis';
-import { ServerSideUserManager } from 'oidc-client-ts';
+import { ServerSideUserManager } from '@ridha.bouazizi/oidc-client-ts-redis';
 
 let userManager: ServerSideUserManager;
 let redisClient: any;
