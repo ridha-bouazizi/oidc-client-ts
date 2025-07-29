@@ -1,9 +1,13 @@
 /**
  * Example integration showing how to use the server-side OIDC with Redis
- * This is a demonstration file showing the complete flow
+ * This example uses your existing .env configuration
  */
 
-import { ServerSideUserManager, RedisStateStore } from './src';
+import dotenv from 'dotenv';
+import { ServerSideUserManager, RedisStateStore } from '../src/index.js';
+
+// Load environment variables from .env file
+dotenv.config();
 
 // Example: Node.js Express server integration
 async function expressIntegrationExample() {
@@ -16,23 +20,29 @@ async function expressIntegrationExample() {
     const app = express();
     app.use(cookieParser());
 
-    // Redis client setup
+    // Redis client setup using your .env configuration
     const redisClient = createClient({
-        url: process.env.REDIS_URL || 'redis://localhost:6379'
+        socket: {
+            host: process.env.REDIS_HOST || 'localhost',
+            port: parseInt(process.env.REDIS_PORT || '6379'),
+        },
+        password: process.env.REDIS_PASSWORD || undefined,
+        database: parseInt(process.env.REDIS_DB || '0'),
     });
 
     await redisClient.connect();
 
-    // Server-side user manager configuration
+    // Server-side user manager configuration using your .env values
     const userManager = new ServerSideUserManager({
-        authority: process.env.OIDC_AUTHORITY || 'https://your-oidc-provider.com',
-        client_id: process.env.OIDC_CLIENT_ID || 'your-client-id',
-        client_secret: process.env.OIDC_CLIENT_SECRET || 'your-client-secret',
-        redirect_uri: process.env.OIDC_REDIRECT_URI || 'https://your-app.com/auth/callback',
+        authority: process.env.OIDC_AUTHORITY!,
+        client_id: process.env.OIDC_CLIENT_ID!,
+        client_secret: process.env.OIDC_CLIENT_SECRET!,
+        redirect_uri: process.env.OIDC_REDIRECT_URI!,
+        post_logout_redirect_uri: process.env.OIDC_POST_LOGOUT_REDIRECT_URI,
         scope: 'openid profile email',
         redisClient,
         redisConfig: {
-            keyPrefix: 'myapp:oidc:',
+            keyPrefix: 'oidc:auth:',
             ttl: 3600, // 1 hour
         }
     });
