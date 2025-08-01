@@ -65,11 +65,11 @@ export type CreateSignoutRequestArgs = Omit<SignoutRequestArgs, "url" | "state_d
 
 // @public (undocumented)
 export class DPoPState {
-    constructor(keys: CryptoKeyPair, nonce?: string | undefined);
+    constructor(keys: CryptoKeyPair, nonce?: string);
     // (undocumented)
     readonly keys: CryptoKeyPair;
     // (undocumented)
-    nonce?: string | undefined;
+    nonce?: string;
 }
 
 // @public
@@ -82,11 +82,11 @@ export class ErrorResponse extends Error {
         session_state?: string | null;
         url_state?: string;
     },
-    form?: URLSearchParams | undefined);
+    form?: URLSearchParams);
     readonly error: string | null;
     readonly error_description: string | null;
     readonly error_uri: string | null;
-    readonly form?: URLSearchParams | undefined;
+    readonly form?: URLSearchParams;
     readonly name: string;
     // (undocumented)
     readonly session_state: string | null;
@@ -1128,7 +1128,7 @@ export class UserManager {
     signoutSilent(args?: SignoutSilentArgs): Promise<void>;
     signoutSilentCallback(url?: string): Promise<void>;
     // (undocumented)
-    protected _signoutStart(args: CreateSignoutRequestArgs | undefined, handle: IWindow): Promise<NavigateResponse>;
+    protected _signoutStart(args: CreateSignoutRequestArgs, handle: IWindow): Promise<NavigateResponse>;
     // Warning: (ae-forgotten-export) The symbol "SilentRenewService" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
